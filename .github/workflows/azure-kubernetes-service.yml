@@ -18,7 +18,11 @@ jobs:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
 
       - name: Login to ACR
-        run: echo "${{ secrets.ACR_PASSWORD }}" | docker login fastapiacr.azurecr.io -u fastapiacr --password-stdin
+        run: |
+          echo "${{ secrets.ACR_PASSWORD }}" | docker login fastapiacr.azurecr.io -u fastapiacr --password-stdin
 
       - name: Build Docker Image
         run: docker build -t fastapiacr.azurecr.io/ml-api:v1 .
+
+      - name: Push Docker Image to ACR
+        run: docker push fastapiacr.azurecr.io/ml-api:v1
